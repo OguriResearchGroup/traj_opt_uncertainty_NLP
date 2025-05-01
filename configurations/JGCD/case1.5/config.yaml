@@ -1,0 +1,81 @@
+---
+name: "JGCD Case 1.5"
+description: "NRHO to NRHO transfer with large execution errors and small initial/final covariance, limited phasing"
+dynamics:
+  type: "CR3BP"
+  mass_rat: 1.215058560962404e-2
+  l_star: 389703
+  mu1: 398600.4418
+  mu2: 4902.8
+hot_starter:
+  bool: false
+  file: 'init_conds/JGCD/feedback_param/threebody/case1/sol.pkl'
+integration:
+  a_tol: 1.e-12
+  r_tol: 1.e-12
+  int_points: 16
+  mc_div: 2
+segments: 41
+boundary_conditions:
+  t0: "2026-01-01T00:00:00"
+  tf: "2026-01-11T00:00:00"
+  y0: [1.01148396e+00,  1.65745655e-27, -1.73584768e-01, -8.66476543e-13,
+       -7.90999957e-02, -1.20919599e-11]
+  yf: [1.01148396e+00,  1.65745655e-27,  1.73584768e-01, -8.66476543e-13,
+       -7.90999957e-02,  1.20919599e-11]
+  type: "free"
+  per1: 1.36951086
+  per2: 1.36951086
+  alpha:
+    min: 0.0
+    max: 0.1
+  beta:
+    min: 0.0
+    max: 0.1
+engine:
+  m0: 200
+  Isp: 3337
+  T_max: .5
+uncertainty:
+  covariance:
+    initial:
+      pos_sig: 1
+      vel_sig: .01
+      mass_sig: 1.e-12
+    target:
+      pos_sig: 10
+      vel_sig: .02
+      mass_sig: 60
+  acc_sig: 5.e-12
+  gates:
+    fixed_mag: 1.e-2
+    prop_mag: 1.e-2
+    fixed_point: 1.e-2
+    prop_point: 1.e-2
+  eps: .001
+UT:
+  alpha: 1.0
+  beta: 2.0
+  kappa: 4.0
+SNOPT:
+  major_opt_tol: 1.e-5
+  major_feas_tol: 1.e-6
+  minor_feas_tol: 1.e-6
+  major_iter_limit: 2000
+  partial_price: 1
+  linesearch_tol: .99
+  function_prec: 1e-11
+constraints:
+  deterministic:
+    det_col_avoid:
+      bool: true
+      parameters: &col_avoid
+        r_obs: [384967.8803361727, 0., 0.]
+        safe_d: 1737.5
+  stochastic:
+    det_col_avoid:
+      bool: true
+      parameters: *col_avoid
+    stat_col_avoid:
+      bool: false
+      parameters: *col_avoid
